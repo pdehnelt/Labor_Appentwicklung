@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  my_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud-consumption-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    environment:
+      - MAVEN_OPTS=-Xmx512m
+    command: mvn clean package -DskipTests && java -jar target/cloud-consumption-app-1.0-SNAPSHOT.jar
