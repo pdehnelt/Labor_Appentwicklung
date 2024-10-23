@@ -1,4 +1,4 @@
-name: CI/CD Workflow
+name: Docker Compose Build and Deploy
 
 on:
   push:
@@ -14,15 +14,25 @@ jobs:
         uses: actions/checkout@v2
 
       # Install Docker Compose
-      - name: Set up Docker Compose
+      - name: Install Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install docker-compose -y
 
+      # Ensure Docker is up and running
+      - name: Ensure Docker is running
+        run: sudo systemctl start docker
+
       # Build and run Docker Compose in detached mode
       - name: Run docker-compose up
-        run: docker-compose up --build -d
+        run: |
+          docker-compose up --build -d
+
+      # Optional: Run tests (if required)
+      - name: Run tests
+        run: docker-compose exec my_service mvn test
 
       # Optional: Stop and clean up the containers after the workflow
       - name: Tear down
+        if: always()
         run: docker-compose down
