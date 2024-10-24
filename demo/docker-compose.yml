@@ -7,8 +7,6 @@ services:
     container_name: cloud-consumption-app
     ports:
       - "8080:8080"
-    volumes:
-      - .:/app
     environment:
       - MAVEN_OPTS=-Xmx512m
     command: java -jar /app/cloud-consumption-app-1.0-SNAPSHOT.jar
