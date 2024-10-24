@@ -23,7 +23,7 @@ public class CloudConsumptionApp {
     }
 
     private static Map<String, Object> getDataset() {
-        String urlString = "http://container1:8080/v1/dataset";
+        String urlString = "http://localhost:8080/v1/dataset";
         try {
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

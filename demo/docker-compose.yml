@@ -1,12 +1,21 @@
-version: '3.8'
 services:
+  # Dein Hauptservice (cloud-consumption-app)
   my_service:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: .  # Verwende das aktuelle Verzeichnis, um das Dockerfile zu finden
+      dockerfile: Dockerfile  # Nutze die Dockerfile im aktuellen Verzeichnis
     container_name: cloud-consumption-app
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Exponiere Port 8080 auf dem Host
     environment:
-      - MAVEN_OPTS=-Xmx512m
+      - MAVEN_OPTS=-Xmx512m  # Setze Java-Optionen
+    depends_on:
+      - container1  # Stelle sicher, dass container1 hochfährt, bevor my_service startet
     command: java -jar /app/cloud-consumption-app-1.0-SNAPSHOT.jar
+
+  # Definiere container1 als einen zusätzlichen Service
+  container1:
+    image: nginx:latest  # Verwende hier ein öffentliches Docker-Image, z. B. NGINX als Beispiel
+    container_name: container1
+    ports:
+      - "8081:8080"  # Mappe Port 8081 auf Port 8080 im container1
