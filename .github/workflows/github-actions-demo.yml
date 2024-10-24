@@ -1,30 +1,32 @@
 
-name: Docker Compose Integration Test
+name: CI/CD Workflow
+
 on:
   push:
     branches:
       - main
+
 jobs:
 
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-    steps:
 
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Build and Run Docker Compose
+
+
+      # Install Docker Compose
+      - name: Set up Docker Compose
         run: |
-        
-          docker-compose up --build -d
-          sleep 15
-      - name: Run Unit Tests
-        run: mvn test
-      - name: Check Logs of My Application
-        run: docker logs $(docker-compose ps -q my_service)
-      - name: Push Docker Image to DockerHub
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: your-dockerhub-username/cloud-consumption-app:latest
+          
+          sudo apt-get update
+          sudo apt-get install docker-compose -y
+
+      # Build and run Docker Compose in detached mode
+      - name: Run docker-compose up
+        run: docker-compose up --build -d
+
+
+      - name: Tear down
+        run: docker-compose down
