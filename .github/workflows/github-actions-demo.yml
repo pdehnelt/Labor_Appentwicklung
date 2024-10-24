@@ -1,44 +1,30 @@
-name: Docker Compose Build and Deploy
 
+name: Docker Compose Integration Test
 on:
   push:
     branches:
       - main
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
 
+  build-and-test:
+    runs-on: ubuntu-latest
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # Change to the directory where Dockerfile and docker-compose.yml exist
-      - name: Set working directory
-        run: cd main
-
-      # Install Docker Compose
-      - name: Install Docker Compose
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and Run Docker Compose
         run: |
-          sudo apt-get update
-          sudo apt-get install docker-compose -y
-
-      # Ensure Docker is up and running
-      - name: Ensure Docker is running
-        run: sudo systemctl start docker
-
-      # Build and run Docker Compose in detached mode
-      - name: Run docker-compose up
-        run: |
-          cd main && docker-compose up --build -d
-
-      # Optional: Run tests (if required)
-      - name: Run tests
-        run: |
-          cd main && docker-compose exec my_service mvn test
-
-      # Tear down Docker Compose after tests are done
-      - name: Tear down
-        if: always()
-        run: |
-          cd main && docker-compose down
+        
+          docker-compose up --build -d
+          sleep 15
+      - name: Run Unit Tests
+        run: mvn test
+      - name: Check Logs of My Application
+        run: docker logs $(docker-compose ps -q my_service)
+      - name: Push Docker Image to DockerHub
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: your-dockerhub-username/cloud-consumption-app:latest
