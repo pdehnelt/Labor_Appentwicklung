@@ -2,15 +2,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.example.aufgabe</groupId>
   <artifactId>cloud-consumption-app</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
+
   <properties>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
-    <maven.compiler.release>21</maven.compiler.release>
+    <!-- Temporär Java 17 verwenden -->
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.release>17</maven.compiler.release>
   </properties>
+
   <dependencies>
     <!-- Jackson dependencies for JSON handling -->
     <dependency>
@@ -28,6 +32,7 @@
       <artifactId>jackson-annotations</artifactId>
       <version>2.15.2</version>
     </dependency>
+
     <!-- JUnit 5 for testing -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -42,6 +47,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <!-- Maven Compiler Plugin -->
@@ -59,6 +65,7 @@
           </compilerArgs>
         </configuration>
       </plugin>
+
       <!-- Maven Surefire Plugin for testing -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -68,6 +75,7 @@
           <skipTests>true</skipTests>
         </configuration>
       </plugin>
+
       <!-- Maven Shade Plugin to create an executable jar -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -92,6 +100,7 @@
       </plugin>
     </plugins>
   </build>
+
   <repositories>
     <repository>
       <id>central</id>
