@@ -1,15 +1,13 @@
-
-
+version: '3'
 services:
-  # Service für dein Java-Projekt
   my_service:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"  # Mapping des Ports zwischen Container und Host
+      - "8080:8080"  # Port-Mapping zwischen Host und Container
     volumes:
-      - .:/app  # Bind Mount: Der aktuelle Ordner auf dem Host wird ins Containerverzeichnis /app gemountet
+      - .:/app  # Bind-Mount für das Projektverzeichnis
     environment:
-      - ENV_VARIABLE=production  # Beispiel für eine Umgebungsvariable
-    command: java -jar your-app.jar  # Starte die Java-Applikation direkt
+      - ENV_VARIABLE=production  # Beispiel für Umgebungsvariablen
+    command: java -jar your-app.jar  # Start der Java-Anwendung
