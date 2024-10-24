@@ -1,13 +1,14 @@
-version: '3'
+version: '3.8'
 services:
   my_service:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: cloud-consumption-app
     ports:
-      - "8080:8080"  # Port-Mapping zwischen Host und Container
+      - "8080:8080"
     volumes:
-      - .:/app  # Bind-Mount für das Projektverzeichnis
+      - .:/app
     environment:
-      - ENV_VARIABLE=production  # Beispiel für Umgebungsvariablen
-    command: java -jar your-app.jar  # Start der Java-Anwendung
+      - MAVEN_OPTS=-Xmx512m
+    command: mvn clean package -DskipTests && java -jar target/cloud-consumption-app-1.0-SNAPSHOT.jar
